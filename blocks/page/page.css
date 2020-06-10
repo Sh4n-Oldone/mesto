@@ -1,0 +1,7 @@
+@import url(./__container/page__container.css);
+
+.page {
+  color: #ffffff;
+  background-color: #000000;
+  margin: 0;
+}
