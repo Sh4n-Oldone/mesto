@@ -10,7 +10,7 @@
 
 **GithubPages**
 
-* [Ссылка на работу в GithubPages]()
+* [Ссылка на работу в GithubPages](https://sh4n-oldone.github.io/mesto/)
 
 **Figma**
 
