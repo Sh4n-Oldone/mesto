@@ -1,0 +1,11 @@
+.popup__input-title {
+  margin-bottom: 48px;
+  border: 0;
+  border-bottom: 1px solid #777777;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 5px;
+}

@@ -12,11 +12,11 @@
 }
 
 .profile__add-button:hover {
-  opacity: 60%;
+  opacity: 0.6;
 }
 
 .profile__add-button:active {
-  opacity: 100%;
+  opacity: 1;
 }
 
 @media screen and (max-width: 650px) {

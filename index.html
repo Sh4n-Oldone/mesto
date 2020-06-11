@@ -8,72 +8,87 @@
 </head>
 <body class="page">
   <div class="page__container">
+
     <header class="header">
       <img src="./images/logo_white.svg" alt="Логотип" class="logo">
     </header>
 
-    <section class="profile">
-      <img src="./images/cousteau.jpg" alt="" class="profile__pic">
-      <div class="profile__info">
-        <div class="profile__wrapper">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button class="profile__edit-button button-style__reset"></button>
+    <main class="content">
+      <section class="profile">
+        <img src="./images/cousteau.jpg" alt="" class="profile__pic">
+        <div class="profile__info">
+          <div class="profile__wrapper">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <button class="profile__edit-button button-style__reset"></button>
+          </div>
+          <p class="profile__title">Исследователь океана</p>
         </div>
-        <p class="profile__title">Исследователь океана</p>
-      </div>
-      
-      <button class="profile__add-button button-style__reset"></button>
-    </section>
+        <button class="profile__add-button button-style__reset"></button>
+      </section>
 
-    <section class="cards">
-      <div class="card">
-        <img src="./images/photo-code.jpg" alt="Код на экране" class="card__image">
-        <div class="card__item">
-          <h2 class="card__title">Кодинг</h2>
-          <button class="card__like-button button-style__reset"></button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./images/photo-pc.jpg" alt="Системный блок" class="card__image">
-        <div class="card__item">
-          <h2 class="card__title">Железо</h2>
-          <button class="card__like-button button-style__reset"></button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./images/photo-chopper.jpg" alt="Мотоцикл" class="card__image">
-        <div class="card__item">
-          <h2 class="card__title">Свобода</h2>
-          <button class="card__like-button button-style__reset"></button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./images/photo-jellyfish.jpg" alt="Медуза" class="card__image">
-        <div class="card__item">
-          <h2 class="card__title">Поток</h2>
-          <button class="card__like-button button-style__reset"></button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./images/photo-london.jpg" alt="Лондонский Тауэр" class="card__image">
-        <div class="card__item">
-          <h2 class="card__title">Альбион</h2>
-          <button class="card__like-button button-style__reset"></button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./images/photo-cat.jpg" alt="Котик" class="card__image">
-        <div class="card__item">
-          <h2 class="card__title">Настрой</h2>
-          <button class="card__like-button button-style__reset"></button>
-        </div>
+      <ul class="cards">
+        <li class="card">
+          <img src="./images/photo-code.jpg" alt="Код на экране" class="card__image">
+          <div class="card__item">
+            <h2 class="card__title">Кодинг</h2>
+            <button class="card__like-button button-style__reset"></button>
+          </div>
+        </li>
+        <li class="card">
+          <img src="./images/photo-pc.jpg" alt="Системный блок" class="card__image">
+          <div class="card__item">
+            <h2 class="card__title">Железо</h2>
+            <button class="card__like-button button-style__reset"></button>
+          </div>
+        </li>
+        <li class="card">
+          <img src="./images/photo-chopper.jpg" alt="Мотоцикл" class="card__image">
+          <div class="card__item">
+            <h2 class="card__title">Свобода</h2>
+            <button class="card__like-button button-style__reset"></button>
+          </div>
+        </li>
+        <li class="card">
+          <img src="./images/photo-jellyfish.jpg" alt="Медуза" class="card__image">
+          <div class="card__item">
+            <h2 class="card__title">Поток</h2>
+            <button class="card__like-button button-style__reset"></button>
+          </div>
+        </li>
+        <li class="card">
+          <img src="./images/photo-london.jpg" alt="Лондонский Тауэр" class="card__image">
+          <div class="card__item">
+            <h2 class="card__title">Альбион</h2>
+            <button class="card__like-button button-style__reset"></button>
+          </div>
+        </li>
+        <li class="card">
+          <img src="./images/photo-cat.jpg" alt="Котик" class="card__image">
+          <div class="card__item">
+            <h2 class="card__title">Настрой</h2>
+            <button class="card__like-button button-style__reset"></button>
+          </div>
+        </li>
+      </ul>
+    </main class="content">
+    
+    <section class="popup">
+      <div class="popup__container">
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <form class="popup__form">
+          <input type="text" value="Жак-Ив Кусто" class="popup__input-name">
+          <input type="text" value="Исследователь океана" class="popup__input-title">
+          <button type="submit" class="popup__save-button button-style__reset">Сохранить</button>
+        </form>
+        <button type="button" class="popup__close-button button-style__reset"></button>
       </div>
     </section>
 
     <footer class="footer">
       &copy; 2020 Mesto Russia
     </footer>
+
   </div>
-  <script src="./pages/index.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
