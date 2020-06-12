@@ -19,3 +19,17 @@
     max-width: 282px;
   }
 }
+
+@media screen and (max-width:900px){
+  .profile {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media screen and (max-width:650px){
+  .profile {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
