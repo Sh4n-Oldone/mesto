@@ -1,20 +1,21 @@
 // Открытие/закрытие попапа
 
 const popUp = document.querySelector(".popup");
-let popUpClasses = popUp.classList;
 const editButton = document.querySelector(".profile__edit-button");
 const closeButton = document.querySelector(".popup__close-button");
 
-function popUp() {
-  popUpClasses.toggle("popup_opened");
+function popUpUse() {
+  popUp.classList.toggle("popup_opened");
 };
 
-editButton.addEventListener("click", popUp);
-closeButton.addEventListener("click", popUp);
+editButton.addEventListener("click", popUpUse);
+closeButton.addEventListener("click", popUpUse);
 
 // Кнопка сохранения
 const formElement = document.querySelector(".popup__form");
 
+// Обработчик «отправки» формы, хотя пока
+// она никуда отправляться не будет
 function formSubmitHandler (evt) {
     evt.preventDefault();
     const nameInput = document.querySelector(".popup__input-name");
