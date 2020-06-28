@@ -76,6 +76,14 @@ function likeButtonToggle(item) {
     });
 };
 
+function removeCard(item) {
+    item.querySelector('.card__remove-button').addEventListener("click", function(evt) {
+        const removeButtonTarget = evt.target;
+        removeButtonTarget.parentNode.remove();
+    });
+};
+
+
 // функция создания карточек из массива
 function appendCardList(names, links) {
     for (let i = 0; i < initialCards.length; i++) { // счётчик относительно длины массива карточек
@@ -86,10 +94,11 @@ function appendCardList(names, links) {
         card.querySelector('.card__image').src = links[i]; // ещё раз, только не текст, а в ссылку элемента
 
         likeButtonToggle(card);
-
+        removeCard(card);
         cardsList.append(card); //  закидываем карточку в DOM, в конец грида
-  };
+    };
 };
+
 appendCardList(initialCardsNames, initialCardsLinks); // вызываем функцию и отдаём ей два массива
 
 // Работа с поп-апом для добавления карточек
@@ -119,6 +128,7 @@ function addNewCard(evt) {
     card.querySelector('.card__image').src = newCardLinkValue; // записывает из инпута ссылку карточки
 
     likeButtonToggle(card);
+    removeCard(card);
 
     cardsList.prepend(card);
 }
@@ -132,3 +142,8 @@ closeButtonCard.addEventListener("click", cardExpandPopUp);
 
 // Удаление карточки
 
+// const removeButton = document.querySelector('.card__remove-button');
+// removeButton.addEventListener("click", function(evt) {
+//     const removeButtonTarget = evt.target;
+//     removeButtonTarget.parentNode.remove();
+// });

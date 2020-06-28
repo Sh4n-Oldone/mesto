@@ -1,3 +1,4 @@
+@import url(./__remove-button/card__remove-button.css);
 @import url(./__image/card__image.css);
 @import url(./__item/card__item.css);
 @import url(./__title/card__title.css);
@@ -5,6 +6,7 @@
 
 .card {
   /* max-width: 282px; */
+  position: relative;
   width: 100%;
   margin: 0 auto;
   padding: 0;
