@@ -88,16 +88,23 @@ function cardExpandPopUp() {
     popUpCard.classList.toggle("popup_opened");
 };
 
-function addNewCard(newCardName, newCardLink) {
-    newCardName.preventDefault();
+function addNewCard(evt) { // функция добавления карточки
+    evt.preventDefault(); // отключает обновление страницы после выполнения функции
     const cardTemplate = document.querySelector("#card__template").content;
     const card = cardTemplate.cloneNode(true);
-    card.querySelector('.card__title').textContent = newCardName;
-    card.querySelector('.card__image').src = newCardLink;
+
+    const newCardName = popUpCard.querySelector(".popup__input-name");
+    const newCardLink = popUpCard.querySelector(".popup__input-title");
+    let newCardNameValue = newCardName.value;
+    let newCardLinkValue = newCardLink.value;
+
+    card.querySelector('.card__title').textContent = newCardNameValue; // записывает значение из инпута в имя картчоки
+    card.querySelector('.card__image').src = newCardLinkValue; // записывает из инпута ссылку карточки
     cardsList.prepend(card);
 }
 
 const formCardElement = popUpCard.querySelector(".popup__form");
+
 addButtonCard.addEventListener("click", cardExpandPopUp);
 formCardElement.addEventListener("submit", addNewCard);
 formCardElement.addEventListener("submit", cardExpandPopUp);
