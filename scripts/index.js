@@ -1,25 +1,23 @@
-// Открытие/закрытие попапа
+// Поп-ап профиля
+const popUpUser = document.querySelector(".popup");
+const editButtonUser = document.querySelector(".profile__edit-button");
+const closeButtonUser = popUpUser.querySelector(".popup__close-button");
 
-const popUp = document.querySelector(".popup");
-const editButton = document.querySelector(".profile__edit-button");
-const closeButton = document.querySelector(".popup__close-button");
-
-function popUpUse() {
-  popUp.classList.toggle("popup_opened");
+function profilePopUp() {
+  popUpUser.classList.toggle("popup_opened");
 };
 
-editButton.addEventListener("click", popUpUse);
-closeButton.addEventListener("click", popUpUse);
+editButtonUser.addEventListener("click", profilePopUp);
+closeButtonUser.addEventListener("click", profilePopUp);
 
 // Кнопка сохранения
-const formElement = document.querySelector(".popup__form");
-
+const formUserElement = popUpUser.querySelector(".popup__form");
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function formSubmitHandler (evt) {
     evt.preventDefault();
-    const nameInput = document.querySelector(".popup__input-name");
-    const jobInput = document.querySelector(".popup__input-title");
+    const nameInput = popUpUser.querySelector(".popup__input-name");
+    const jobInput = popUpUser.querySelector(".popup__input-title");
     
     let nameInputValue = nameInput.value;
     let jobInputValue = jobInput.value;
@@ -31,13 +29,11 @@ function formSubmitHandler (evt) {
     profileTitle.textContent = jobInputValue;
 };
 
-formElement.addEventListener('submit', formSubmitHandler);
-formElement.addEventListener('submit', popUpUse);
+formUserElement.addEventListener('submit', formSubmitHandler);
+formUserElement.addEventListener('submit', profilePopUp);
+
 
 // Добавление первых шести карточек
-
-
-
 const cardsList = document.querySelector(".cards__list"); // записываем в переменную список карточек
 const initialCards = [
   {
@@ -67,7 +63,6 @@ const initialCards = [
   
 ];
 
-
 const initialCardsNames = initialCards.map(item => item.name); // достаём массив имён из массива объектов исходных карточек
 const initialCardsLinks = initialCards.map(item => item.link); // достаём оттуда же ссылки
 
@@ -81,3 +76,31 @@ function appendCardList(names, links) {
   };
 };
 appendCardList(initialCardsNames, initialCardsLinks); // вызываем функцию и отдаём ей два массива
+
+// Работа с поп-апом для добавления карточек
+
+// Скрыть/отобразить поп-ап
+const popUpCard = document.querySelectorAll(".popup")[1]; // запись в переменную второго элемента из псевдомассива объектов с классом .popup
+const addButtonCard = document.querySelector(".profile__add-button");
+const closeButtonCard = popUpCard.querySelector(".popup__close-button");
+
+function cardExpandPopUp() {
+    popUpCard.classList.toggle("popup_opened");
+};
+
+function addNewCard(newCardName, newCardLink) {
+    newCardName.preventDefault();
+    const cardTemplate = document.querySelector("#card__template").content;
+    const card = cardTemplate.cloneNode(true);
+    card.querySelector('.card__title').textContent = newCardName;
+    card.querySelector('.card__image').src = newCardLink;
+    cardsList.prepend(card);
+}
+
+const formCardElement = popUpCard.querySelector(".popup__form");
+addButtonCard.addEventListener("click", cardExpandPopUp);
+formCardElement.addEventListener("submit", addNewCard);
+formCardElement.addEventListener("submit", cardExpandPopUp);
+closeButtonCard.addEventListener("click", cardExpandPopUp);
+
+
