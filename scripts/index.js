@@ -68,22 +68,6 @@ const initialCards = [
 const initialCardsNames = initialCards.map(item => item.name); // достаём массив имён из массива объектов исходных карточек
 const initialCardsLinks = initialCards.map(item => item.link); // достаём оттуда же ссылки
 
-// функция переключения отображения лайка
-function likeButtonToggle(item) {
-    item.querySelector(".card__like-button").addEventListener("click", function (evt) {
-        const likeButtonEvent = evt.target;
-        likeButtonEvent.classList.toggle("card__like-button_pressed");
-    });
-};
-
-function removeCard(item) {
-    item.querySelector('.card__remove-button').addEventListener("click", function(evt) {
-        const removeButtonTarget = evt.target;
-        removeButtonTarget.parentNode.remove();
-    });
-};
-
-
 // функция создания карточек из массива
 function appendCardList(names, links) {
     for (let i = 0; i < initialCards.length; i++) { // счётчик относительно длины массива карточек
@@ -95,6 +79,8 @@ function appendCardList(names, links) {
 
         likeButtonToggle(card);
         removeCard(card);
+        imgOpenPopUp(card);
+
         cardsList.append(card); //  закидываем карточку в DOM, в конец грида
     };
 };
@@ -127,8 +113,10 @@ function addNewCard(evt) {
     card.querySelector('.card__title').textContent = newCardNameValue; // записывает значение из инпута в имя картчоки
     card.querySelector('.card__image').src = newCardLinkValue; // записывает из инпута ссылку карточки
 
+    
     likeButtonToggle(card);
     removeCard(card);
+    imgOpenPopUp(card);
 
     cardsList.prepend(card);
 }
@@ -140,10 +128,43 @@ formCardElement.addEventListener("submit", addNewCard);
 formCardElement.addEventListener("submit", cardExpandPopUp);
 closeButtonCard.addEventListener("click", cardExpandPopUp);
 
-// Удаление карточки
+// Функция переключения отображения лайка
+function likeButtonToggle(item) {
+    item.querySelector(".card__like-button").addEventListener("click", function (evt) {
+        const likeButtonEvent = evt.target;
+        likeButtonEvent.classList.toggle("card__like-button_pressed");
+    });
+}; // теперь она вызывается в функциях сверху
 
-// const removeButton = document.querySelector('.card__remove-button');
-// removeButton.addEventListener("click", function(evt) {
-//     const removeButtonTarget = evt.target;
-//     removeButtonTarget.parentNode.remove();
-// });
+// Функция удаление карточки
+function removeCard(item) {
+    item.querySelector('.card__remove-button').addEventListener("click", function(evt) { // слушаем клик конкретной кнопки из всех с нужным классом
+        const removeButtonTarget = evt.target; // записываем в переменную кликнутый объект
+        removeButtonTarget.parentNode.remove(); // удаляем из дом родителя этого элемента
+    });
+};
+
+
+// Поп-ап с картинкой
+
+const popUpImg = document.querySelectorAll(".popup")[2];
+const closeButtonImg = popUpImg.querySelector(".popup__close-button");
+
+function imgPopUp() {
+  popUpImg.classList.toggle("popup_opened");
+};
+
+closeButtonImg.addEventListener("click", imgPopUp);
+
+// Функция открытия попапа с выбранной картинкой
+function imgOpenPopUp(item) {
+    item.querySelector(".card__image").addEventListener("click", function(evt) {
+        imgPopUp();
+        const imgTarget = evt.target;
+        const cardTextTarget = imgTarget.nextElementSibling.querySelector(".card__title").textContent; // текст карточки через соседа, в котором ищем объект
+
+        document.querySelector(".popup-image__image").src = imgTarget.src;
+        document.querySelector(".popup-image__image").alt = cardTextTarget;
+        document.querySelector(".popup-image__title").textContent = cardTextTarget;
+    });
+};
