@@ -85,9 +85,13 @@ function imgOpenPopUp(item) {
     });
 };
 
-// запись в профиль новых данных
-function formSubmitHandler (evt) {
+// убирает обновление страницы на сабмитах
+function noDefaultEvent(evt) {
     evt.preventDefault();
+};
+
+// запись в профиль новых данных
+function formSubmitHandler () {
     const nameInput = popUpUser.querySelector(".popup__input-name");
     const jobInput = popUpUser.querySelector(".popup__input-title");
     
@@ -96,12 +100,6 @@ function formSubmitHandler (evt) {
     
     profileName.textContent = nameInputValue;
     profileTitle.textContent = jobInputValue;
-};
-
-// функция, обнуляющая поведение браузера
-// (используется для сабмита чтобы страница не обновлялась)
-function prevent(evt) {
-    evt.preventDefault();
 };
 
 // создание шаблона карточек
@@ -131,17 +129,21 @@ function appendCardList() {
 // Вызовы функций и ивенты
 
 editButtonUser.addEventListener("click", () => {popUp(popUpUser)});
+formUserElement.addEventListener("submit", (evt) => { // можно разделить на два сабмита. formSubmitHandler вызывать тогда без параметров.
+    noDefaultEvent(evt);
+    popUp(popUpUser);
+    formSubmitHandler(evt);
+});
 closeButtonUser.addEventListener("click", () => {popUp(popUpUser)});
-formUserElement.addEventListener("submit", () => {popUp(popUpUser)});
 
 addButtonCard.addEventListener("click", () => {popUp(popUpCard)});
-formCardElement.addEventListener("submit", () => {popUp(popUpCard)});
+formCardElement.addEventListener("submit", (evt) => { // можно разделить обратно на три слушателя сабмита
+    noDefaultEvent(evt);
+    popUp(popUpCard);
+    addCard(popUpCard.querySelector(".popup__input-name").value, popUpCard.querySelector(".popup__input-title").value);
+});
 closeButtonCard.addEventListener("click", () => {popUp(popUpCard)});
 
-appendCardList();
-
-formCardElement.addEventListener("submit", () => {addCard(popUpCard.querySelector(".popup__input-name").value, popUpCard.querySelector(".popup__input-title").value)});
-formCardElement.addEventListener("submit", prevent);
-formUserElement.addEventListener("submit", formSubmitHandler);
-
 closeButtonImg.addEventListener("click", () => {popUp(popUpImg)});
+
+appendCardList();
