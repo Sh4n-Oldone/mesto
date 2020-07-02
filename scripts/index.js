@@ -57,32 +57,33 @@ function popUp(item) {
 };
 
 // переключатель стилей кнопки лайка
-function likeButtonToggle(item) {
-    item.querySelector(".card__like-button").addEventListener("click", function (evt) {
-        const likeButtonEvent = evt.target;
-        likeButtonEvent.classList.toggle("card__like-button_pressed");
-    });
+function likeButtonToggle(evt) {
+    const likeButtonEvent = evt.target;
+    likeButtonEvent.classList.toggle("card__like-button_pressed");
 };
 
 // удаление карточки
-function removeCard(item) {
-    item.querySelector(".card__remove-button").addEventListener("click", function(evt) { // слушаем клик конкретной кнопки из всех с нужным классом
-        const removeButtonTarget = evt.target; // записываем в переменную кликнутый объект
-        removeButtonTarget.parentNode.remove(); // удаляем из дом родителя этого элемента
-    });
+function removeCard(evt) {
+    const removeButtonTarget = evt.target; // записываем в переменную кликнутый объект
+    removeButtonTarget.parentNode.remove(); // удаляем из дом родителя этого элемента
 };
 
 // открытие картинки как поп-апа
-function imgOpenPopUp(item) {
-    item.querySelector(".card__image").addEventListener("click", function(evt) { // слушаем клик конкретной кнопки из всех с нужным классом
-        popUp(popUpImg); // открываем поп-ап
-        const imgTarget = evt.target;  // записываем в переменную кликнутый объект
-        const cardTextTarget = imgTarget.nextElementSibling.querySelector(".card__title").textContent; // текст карточки через соседа, в котором ищем объект
+function imgOpenPopUp(evt) {
+    popUp(popUpImg); // открываем поп-ап
+    const imgTarget = evt.target;  // записываем в переменную кликнутый объект
+    const cardTextTarget = imgTarget.nextElementSibling.querySelector(".card__title").textContent; // текст карточки через соседа, в котором ищем объект
 
-        document.querySelector(".popup-image__image").src = imgTarget.src; // передаём  картинку в поп-ап
-        document.querySelector(".popup-image__image").alt = cardTextTarget; // передаём текст в альт
-        document.querySelector(".popup-image__title").textContent = cardTextTarget; // передаём этот же текст в параграф
-    });
+    document.querySelector(".popup-image__image").src = imgTarget.src; // передаём  картинку в поп-ап
+    document.querySelector(".popup-image__image").alt = cardTextTarget; // передаём текст в альт
+    document.querySelector(".popup-image__title").textContent = cardTextTarget; // передаём этот же текст в параграф
+};
+
+// добавление ивентов лайка, удаления карточки, раскрытия изображения
+function setEventListeners(item) {
+    item.querySelector(".card__like-button").addEventListener("click", likeButtonToggle);
+    item.querySelector(".card__remove-button").addEventListener("click", removeCard);
+    item.querySelector(".card__image").addEventListener("click", imgOpenPopUp);
 };
 
 // убирает обновление страницы на сабмитах
@@ -108,9 +109,7 @@ function createCard(name, link) {
     const card = cardTemplate.cloneNode(true);
     card.querySelector(".card__title").textContent = name;
     card.querySelector(".card__image").src = link;
-    likeButtonToggle(card);
-    removeCard(card);
-    imgOpenPopUp(card);
+    setEventListeners(card);
     return card;
 };
 
