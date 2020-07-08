@@ -1,7 +1,3 @@
-@import url(../__input-name/popup__input-name.css);
-@import url(../__input-title/popup__input-title.css);
-@import url(../__save-button/popup__save-button.css);
-
 .popup__form {
   font-family: 'Inter', 'Arial', sans-serif;
   font-weight: 400;

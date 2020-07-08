@@ -1,9 +1,3 @@
-@import url(./__remove-button/card__remove-button.css);
-@import url(./__image/card__image.css);
-@import url(./__item/card__item.css);
-@import url(./__title/card__title.css);
-@import url(./__like-button/card__like-button.css);
-
 .card {
   /* max-width: 282px; */
   position: relative;
