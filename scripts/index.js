@@ -1,5 +1,6 @@
 // Объявление переменных
 
+const page = document.querySelector('.page');
 const popUpUser = document.querySelector(".popup-profile");
 const popUpCard = document.querySelector(".popup-card");
 const popUpImg = document.querySelector(".popup-image");
@@ -93,8 +94,8 @@ function noDefaultEvent(evt) {
 
 // запись в профиль новых данных
 function formSubmitHandler () {
-    const nameInput = popUpUser.querySelector(".popup__input-name");
-    const jobInput = popUpUser.querySelector(".popup__input-title");
+    const nameInput = popUpUser.querySelector(".popup__input_name");
+    const jobInput = popUpUser.querySelector(".popup__input_title");
     
     const nameInputValue = nameInput.value;
     const jobInputValue = jobInput.value;
@@ -139,10 +140,40 @@ addButtonCard.addEventListener("click", () => {popUp(popUpCard)});
 formCardElement.addEventListener("submit", (evt) => { // можно разделить обратно на три слушателя сабмита
     noDefaultEvent(evt);
     popUp(popUpCard);
-    addCard(popUpCard.querySelector(".popup__input-name").value, popUpCard.querySelector(".popup__input-title").value);
+    addCard(popUpCard.querySelector(".popup__input_name").value, popUpCard.querySelector(".popup__input_title").value);
 });
 closeButtonCard.addEventListener("click", () => {popUp(popUpCard)});
 
 closeButtonImg.addEventListener("click", () => {popUp(popUpImg)});
 
 appendCardList();
+
+popUpUser.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup-profile')) {
+        popUp(popUpUser);
+    };
+});
+
+page.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape' && popUpUser.classList.contains('popup_opened')) {
+        popUp(popUpUser);
+    };
+    if (evt.key === 'Escape' && popUpCard.classList.contains('popup_opened')) {
+        popUp(popUpCard);
+    };
+    if (evt.key === 'Escape' && popUpImg.classList.contains('popup_opened')) {
+        popUp(popUpImg);
+    };
+});
+
+popUpCard.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup-card')) {
+        popUp(popUpCard);
+    };
+});
+
+popUpImg.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup-image')) {
+        popUp(popUpImg);
+    };
+});
