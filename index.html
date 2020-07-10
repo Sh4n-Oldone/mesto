@@ -37,9 +37,9 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form">
           <small class="popup__input_type_error input_name_error-message"></small>
-          <input type="text" name="name" value="Жак-Ив Кусто" placeholder="Ваше имя" class="popup__input popup__input_name" minlength="2" maxlength="40">
+          <input type="text" name="name" value="Жак-Ив Кусто" placeholder="Ваше имя" class="popup__input popup__input_name" minlength="2" maxlength="40" required>
           <small class="popup__input_type_error input_title_error-message"></small>
-          <input type="text" name="job" value="Исследователь океана" placeholder="Ваша работа" class="popup__input popup__input_title" minlength="2" maxlength="200">
+          <input type="text" name="job" value="Исследователь океана" placeholder="Ваша работа" class="popup__input popup__input_title" minlength="2" maxlength="200" required>
           <button type="submit" class="popup__save-button button-style__reset">Сохранить</button>
         </form>
         <button type="button" class="popup__close-button button-style__reset"></button>
@@ -51,9 +51,9 @@
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form">
           <small class="popup__input_type_error input_name_error-message"></small>
-          <input type="text" name="name" value="" placeholder="Название" class="popup__input popup__input_name" minlength="1" maxlength="30">
+          <input type="text" name="name" value="" placeholder="Название" class="popup__input popup__input_name" minlength="1" maxlength="30" required>
           <small class="popup__input_type_error input_title_error-message"></small>
-          <input type="url" name="url" value="" placeholder="Ссылка на карточку" class="popup__input popup__input_title">
+          <input type="url" name="url" value="" placeholder="Ссылка на карточку" class="popup__input popup__input_title" required>
           <button type="submit" class="popup__save-button button-style__reset popup__save-button_disabled" disabled>Создать</button>
         </form>
         <button type="button" class="popup__close-button button-style__reset"></button>
