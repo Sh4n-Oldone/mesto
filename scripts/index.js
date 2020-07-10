@@ -148,9 +148,17 @@ closeButtonImg.addEventListener("click", () => {popUp(popUpImg)});
 
 appendCardList();
 
-popUpUser.addEventListener('click', (evt) => {
+page.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup-profile')) {
         popUp(popUpUser);
+    };
+
+    if (evt.target.classList.contains('popup-card')) {
+        popUp(popUpCard);
+    };
+    
+    if (evt.target.classList.contains('popup-image')) {
+        popUp(popUpImg);
     };
 });
 
@@ -162,18 +170,6 @@ page.addEventListener('keydown', (evt) => {
         popUp(popUpCard);
     };
     if (evt.key === 'Escape' && popUpImg.classList.contains('popup_opened')) {
-        popUp(popUpImg);
-    };
-});
-
-popUpCard.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('popup-card')) {
-        popUp(popUpCard);
-    };
-});
-
-popUpImg.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('popup-image')) {
         popUp(popUpImg);
     };
 });
