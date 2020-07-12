@@ -47,14 +47,14 @@ function enableValidation({formSelector, inputSelector, submitButtonSelector, in
       const inputs = form.querySelectorAll(inputSelector); // ... берёт все инпуты формы ...
 
       inputs.forEach((input) => { // ... для каждого из которых ... 
-        if (input.validity.valueMissing && input.validity.typeMismatch && input.validity.tooShort) { // проверяет валидность параметров
+        if (input.validity.valueMissing || input.validity.typeMismatch || input.validity.tooShort) { // проверяет валидность параметров (если хоть один невалиден, то...)
           showInputError(input, inputErrorClass, checkInputValidity(input));
         } else {
           hideInputError(input, inputErrorClass);
         };
       });
 
-      toggleButtonState(form, submitButtonSelector, inactiveButtonClass); // И отдельный переключатель активности сабмита
+      toggleButtonState(form, submitButtonSelector, inactiveButtonClass);  // И отдельный переключатель активности сабмита
     });
   });
 }
