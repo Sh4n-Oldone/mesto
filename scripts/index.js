@@ -1,6 +1,7 @@
 // Объявление переменных
 
 const page = document.querySelector('.page');
+const pageContainer = document.querySelector('.page__container');
 const popUpUser = document.querySelector(".popup-profile");
 const popUpCard = document.querySelector(".popup-card");
 const popUpImg = document.querySelector(".popup-image");
@@ -55,42 +56,40 @@ const closeButtonImg = popUpImg.querySelector(".popup__close-button");
 // открытие/закрытие поп-апов
 function popUp(item) {
     item.classList.toggle("popup_opened"); // (popUpUser)(popUpCard)(popUpImg) - параметры для открытия попапа редактирования профиля, карточки, изображения
-};
+} // справедливости ради, две домашки назад я сделал именно две функции - add и remove. Но пока делал пятую
+// многим вернулось ревью с советом делать через toggle, так что я переделал так же и ревью прошло без претензий.
+// Просто хотел отметить, что уважаю вашу философскую позицию в этом вопросе и благодарю за подробное ревью.
 
 // переключатель стилей кнопки лайка
 function likeButtonToggle(evt) {
     const likeButtonEvent = evt.target;
     likeButtonEvent.classList.toggle("card__like-button_pressed");
-};
+}
 
 // удаление карточки
 function removeCard(evt) {
     const removeButtonTarget = evt.target; // записываем в переменную кликнутый объект
     removeButtonTarget.parentNode.remove(); // удаляем из дом родителя этого элемента
-};
+}
 
 // открытие картинки как поп-апа
 function imgOpenPopUp(evt) {
     popUp(popUpImg); // открываем поп-ап
     const imgTarget = evt.target;  // записываем в переменную кликнутый объект
     const cardTextTarget = imgTarget.nextElementSibling.querySelector(".card__title").textContent; // текст карточки через соседа, в котором ищем объект
+    const image = document.querySelector(".popup-image__image"); // выбираем картинку поп-апа
 
-    document.querySelector(".popup-image__image").src = imgTarget.src; // передаём  картинку в поп-ап
-    document.querySelector(".popup-image__image").alt = cardTextTarget; // передаём текст в альт
+    image.src = imgTarget.src; // передаём  картинку в поп-ап
+    image.alt = cardTextTarget; // передаём текст в альт
     document.querySelector(".popup-image__title").textContent = cardTextTarget; // передаём этот же текст в параграф
-};
+}
 
 // добавление ивентов лайка, удаления карточки, раскрытия изображения
 function setEventListeners(item) {
     item.querySelector(".card__like-button").addEventListener("click", likeButtonToggle);
     item.querySelector(".card__remove-button").addEventListener("click", removeCard);
     item.querySelector(".card__image").addEventListener("click", imgOpenPopUp);
-};
-
-// убирает обновление страницы на сабмитах
-function noDefaultEvent(evt) {
-    evt.preventDefault();
-};
+}
 
 // запись в профиль новых данных
 function formSubmitHandler () {
@@ -102,35 +101,31 @@ function formSubmitHandler () {
     
     profileName.textContent = nameInputValue;
     profileTitle.textContent = jobInputValue;
-};
+}
 
 // создание шаблона карточек
 // принимает название и ссылку
 function createCard(name, link) {
     const card = cardTemplate.cloneNode(true);
+    const cardImage = card.querySelector(".card__image");
+
     card.querySelector(".card__title").textContent = name;
-    card.querySelector(".card__image").src = link;
+    cardImage.src = link;
+    cardImage.alt = name;
     setEventListeners(card);
     return card;
-};
+}
 
 // внесение в DOM созданной карточки
-function addCard(name, link) {
+function renderCard(name, link) {
     cardsList.prepend(createCard(name, link));
-};
-
-// внесение в DOM карточек, создающихся из массива
-function appendCardList() {
-    initialCards.forEach(element => {
-        addCard(element.name, element.link);
-    });
 }
 
 // Вызовы функций и ивенты
 
 editButtonUser.addEventListener("click", () => {popUp(popUpUser)});
 formUserElement.addEventListener("submit", (evt) => { // можно разделить на два сабмита. formSubmitHandler вызывать тогда без параметров.
-    noDefaultEvent(evt);
+    evt.preventDefault();
     popUp(popUpUser);
     formSubmitHandler(evt);
 });
@@ -138,17 +133,21 @@ closeButtonUser.addEventListener("click", () => {popUp(popUpUser)});
 
 addButtonCard.addEventListener("click", () => {popUp(popUpCard)});
 formCardElement.addEventListener("submit", (evt) => { // можно разделить обратно на три слушателя сабмита
-    noDefaultEvent(evt);
+    evt.preventDefault();
     popUp(popUpCard);
-    addCard(popUpCard.querySelector(".popup__input_name").value, popUpCard.querySelector(".popup__input_title").value);
+    renderCard(popUpCard.querySelector(".popup__input_name").value, popUpCard.querySelector(".popup__input_title").value);
+    formCardElement.reset(); // ресетит инпуты поп-апа
 });
 closeButtonCard.addEventListener("click", () => {popUp(popUpCard)});
 
 closeButtonImg.addEventListener("click", () => {popUp(popUpImg)});
 
-appendCardList();
+// внесение в DOM карточек, создающихся из массива
+initialCards.forEach(element => {
+    renderCard(element.name, element.link);
+});
 
-page.addEventListener('click', (evt) => {
+pageContainer.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup-profile')) {
         popUp(popUpUser);
     };
@@ -163,13 +162,7 @@ page.addEventListener('click', (evt) => {
 });
 
 page.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' && popUpUser.classList.contains('popup_opened')) {
-        popUp(popUpUser);
-    };
-    if (evt.key === 'Escape' && popUpCard.classList.contains('popup_opened')) {
-        popUp(popUpCard);
-    };
-    if (evt.key === 'Escape' && popUpImg.classList.contains('popup_opened')) {
-        popUp(popUpImg);
+    if (evt.key === 'Escape') {
+        popUp(document.querySelector('.popup_opened'));
     };
 });
