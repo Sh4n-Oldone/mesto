@@ -121,7 +121,9 @@ function renderCard(name, link) {
 
 // Вызовы функций и ивенты
 
-editButtonUser.addEventListener("click", () => {popUp(popUpUser)});
+editButtonUser.addEventListener("click", () => {
+    popUp(popUpUser);
+});
 formUserElement.addEventListener("submit", (evt) => { // можно разделить на два сабмита. formSubmitHandler вызывать тогда без параметров.
     evt.preventDefault();
     popUp(popUpUser);
@@ -129,7 +131,11 @@ formUserElement.addEventListener("submit", (evt) => { // можно раздел
 });
 closeButtonUser.addEventListener("click", () => {popUp(popUpUser)});
 
-addButtonCard.addEventListener("click", () => {popUp(popUpCard)});
+addButtonCard.addEventListener("click", () => {
+    popUpCard.querySelector('.popup__save-button').classList.add('popup__save-button_disabled'); // обнуляет класс кнопки
+    popUpCard.querySelector('.popup__save-button').setAttribute('disabled', true); // обнуляет состояние кнопки
+    popUp(popUpCard);
+});
 formCardElement.addEventListener("submit", (evt) => { // можно разделить обратно на три слушателя сабмита
     evt.preventDefault();
     popUp(popUpCard);
