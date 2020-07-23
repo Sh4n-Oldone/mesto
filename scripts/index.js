@@ -51,42 +51,17 @@ const closeButtonUser = popUpUser.querySelector(".popup__close-button");
 const closeButtonCard = popUpCard.querySelector(".popup__close-button");
 const closeButtonImg = popUpImg.querySelector(".popup__close-button");
 
+// Импорты
+
+import { Card } from './Card.js';
+
+import { FormValidator } from './FormValidator.js';
+
 // Функции
 
 // открытие/закрытие поп-апов
 function popUp(item) {
     item.classList.toggle("popup_opened"); // (popUpUser)(popUpCard)(popUpImg) - параметры для открытия попапа редактирования профиля, карточки, изображения
-}
-
-// переключатель стилей кнопки лайка
-function likeButtonToggle(evt) {
-    const likeButtonEvent = evt.target;
-    likeButtonEvent.classList.toggle("card__like-button_pressed");
-}
-
-// удаление карточки
-function removeCard(evt) {
-    const removeButtonTarget = evt.target; // записываем в переменную кликнутый объект
-    removeButtonTarget.parentNode.remove(); // удаляем из дом родителя этого элемента
-}
-
-// открытие картинки как поп-апа
-function imgOpenPopUp(evt) {
-    popUp(popUpImg); // открываем поп-ап
-    const imgTarget = evt.target;  // записываем в переменную кликнутый объект
-    const cardTextTarget = imgTarget.nextElementSibling.querySelector(".card__title").textContent; // текст карточки через соседа, в котором ищем объект
-    const image = document.querySelector(".popup-image__image"); // выбираем картинку поп-апа
-
-    image.src = imgTarget.src; // передаём  картинку в поп-ап
-    image.alt = cardTextTarget; // передаём текст в альт
-    document.querySelector(".popup-image__title").textContent = cardTextTarget; // передаём этот же текст в параграф
-}
-
-// добавление ивентов лайка, удаления карточки, раскрытия изображения
-function setEventListeners(item) {
-    item.querySelector(".card__like-button").addEventListener("click", likeButtonToggle);
-    item.querySelector(".card__remove-button").addEventListener("click", removeCard);
-    item.querySelector(".card__image").addEventListener("click", imgOpenPopUp);
 }
 
 // запись в профиль новых данных
@@ -101,22 +76,20 @@ function formSubmitHandler () {
     profileTitle.textContent = jobInputValue;
 }
 
-// создание шаблона карточек
-// принимает название и ссылку
-function createCard(name, link) {
-    const card = cardTemplate.cloneNode(true);
-    const cardImage = card.querySelector(".card__image");
-
-    card.querySelector(".card__title").textContent = name;
-    cardImage.src = link;
-    cardImage.alt = name;
-    setEventListeners(card);
-    return card;
-}
-
 // внесение в DOM созданной карточки
 function renderCard(name, link) {
-    cardsList.prepend(createCard(name, link));
+    cardsList.prepend(new Card(name, link, cardTemplate).createCard());
+}
+
+// добавляет в выбранную форму событие валидации по сабмиту
+function addValidationToListener(form) {
+  form.addEventListener('submit', new FormValidator({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-button',
+    inactiveButtonClass: 'popup__save-button_disabled',
+    inputErrorClass: 'popup__input_error'
+  }, form).enableValidation());
 }
 
 // Вызовы функций и ивенты
@@ -170,3 +143,6 @@ page.addEventListener('keydown', (evt) => {
         popUp(document.querySelector('.popup_opened'));
     };
 });
+
+addValidationToListener(formUserElement);
+addValidationToListener(formCardElement);
