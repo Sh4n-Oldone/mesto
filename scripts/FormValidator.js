@@ -48,25 +48,25 @@ class FormValidator {
   }
 
   enableValidation() {
-    const forms = document.querySelectorAll(this._formSelector); // Берём все формы...
+    const forms = document.querySelectorAll(this._formSelector);
   
-    forms.forEach((form) => { // ... для каждой из них ...
-      form.addEventListener('input', () => { // ... добавляем слушатель ввода, который ...
-        const inputs = form.querySelectorAll(this._inputSelector); // ... берёт все инпуты формы ...
-  
-        inputs.forEach((input) => { // ... для каждого из которых ... 
-          if (this._checkInputValidity(input)) { // проверяет валидность параметров (если хоть один невалиден, то...)
-            this._showInputError(input, this._checkInputValidity(input));
-          } else {
-            this._hideInputError(input);
-          };
+    forms.forEach((form) => {
+
+        const inputs = form.querySelectorAll(this._inputSelector);
+        
+          inputs.forEach((input) => {
+            input.addEventListener('input', () => {
+              if (this._checkInputValidity(input)) {
+                this._showInputError(input, this._checkInputValidity(input));
+                this._toggleButtonState();
+              } else {
+                this._hideInputError(input);
+                this._toggleButtonState();
+              };
+            });
         });
-  
-        this._toggleButtonState();  // И отдельный переключатель активности сабмита
-      });
     });
   }
-
 }
 
 export { FormValidator };
