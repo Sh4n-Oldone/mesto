@@ -143,5 +143,5 @@ page.addEventListener('keydown', (evt) => {
   };
 });
 
-// addValidationToListener(formUserElement);
+addValidationToListener(formUserElement);
 addValidationToListener(formCardElement);
