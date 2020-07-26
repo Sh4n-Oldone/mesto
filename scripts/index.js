@@ -8,7 +8,6 @@ import { validationSelectors } from './utils.js'; // параметры для �
 // Объявление переменных
 
 const page = document.querySelector('.page');
-const pageContainer = document.querySelector('.page__container');
 const popUpUser = document.querySelector('.popup-profile');
 const popUpCard = document.querySelector('.popup-card');
 
@@ -29,9 +28,15 @@ const formCardElement = popUpCard.querySelector('.popup__form');
 
 const saveButtonCard = popUpCard.querySelector('.popup__save-button');
 
+const nameInput = popUpUser.querySelector('.popup__input_name');
+const jobInput = popUpUser.querySelector('.popup__input_title');
+
 const closeButtonUser = popUpUser.querySelector('.popup__close-button');
 const closeButtonCard = popUpCard.querySelector('.popup__close-button');
 const closeButtonImg = popUpImg.querySelector('.popup__close-button');
+
+const profileFormInputs = formUserElement.querySelectorAll('.popup__input');
+const profileFormErrorElements = formUserElement.querySelectorAll('.popup__input_type_error');
 
 const cardFormInputs = formCardElement.querySelectorAll('.popup__input');
 const cardFormErrorElements = formCardElement.querySelectorAll('.popup__input_type_error');
@@ -55,9 +60,6 @@ function resetForm(errorElementsArr, inputsArr, form) {
 
 // запись в профиль новых данных
 function formSubmitHandler () {
-  const nameInput = popUpUser.querySelector('.popup__input_name');
-  const jobInput = popUpUser.querySelector('.popup__input_title');
-  
   profileName.textContent = nameInput.value;
   profileTitle.textContent = jobInput.value;
 }
@@ -75,14 +77,22 @@ function addValidationToListener(form) {
 // Вызовы функций и ивенты
 
 editButtonUser.addEventListener('click', () => {
+  resetForm(profileFormErrorElements, profileFormInputs, formUserElement);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileTitle.textContent;
   togglePopUp(popUpUser);
 });
+
 formUserElement.addEventListener('submit', (evt) => { // можно разделить на два сабмита. formSubmitHandler вызывать тогда без параметров.
   evt.preventDefault();
   togglePopUp(popUpUser);
   formSubmitHandler(evt);
 });
-closeButtonUser.addEventListener('click', () => {togglePopUp(popUpUser)});
+
+closeButtonUser.addEventListener('click', () => {
+  resetForm(profileFormErrorElements, profileFormInputs, formUserElement);
+  togglePopUp(popUpUser);
+});
 
 addButtonCard.addEventListener('click', () => {
   saveButtonCard.classList.add('popup__save-button_disabled'); // обнуляет класс кнопки
@@ -90,14 +100,16 @@ addButtonCard.addEventListener('click', () => {
   resetForm(cardFormErrorElements, cardFormInputs, formCardElement);
   togglePopUp(popUpCard);
 });
+
 formCardElement.addEventListener('submit', (evt) => { // можно разделить обратно на три слушателя сабмита
-  // const data = {name: popUpCard.querySelector('.popup__input_name').value, link: popUpCard.querySelector('.popup__input_title').value};
   evt.preventDefault();
   togglePopUp(popUpCard);
   renderCard({name: popUpCard.querySelector('.popup__input_name').value, link: popUpCard.querySelector('.popup__input_title').value});
 });
+
 closeButtonCard.addEventListener('click', () => {
   resetForm(cardFormErrorElements, cardFormInputs, formCardElement);
+
   togglePopUp(popUpCard);
 });
 
@@ -108,12 +120,15 @@ initialCards.forEach(element => {
     renderCard(element);
 });
 
-pageContainer.addEventListener('click', (evt) => {
+page.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup-profile')) {
+    resetForm(profileFormErrorElements, cardFormInputs, formCardElement);
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileTitle.textContent;
     togglePopUp(popUpUser);
   };
   if (evt.target.classList.contains('popup-card')) {
-    resetForm(cardFormErrorElements, cardFormInputs, formCardElement);;
+    resetForm(cardFormErrorElements, cardFormInputs, formCardElement);
     togglePopUp(popUpCard);
   };
   
@@ -128,5 +143,5 @@ page.addEventListener('keydown', (evt) => {
   };
 });
 
-addValidationToListener(formUserElement);
+// addValidationToListener(formUserElement);
 addValidationToListener(formCardElement);

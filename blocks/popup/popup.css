@@ -13,8 +13,8 @@
   background: #000000;
   opacity: 0.5;
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  width: 100vw;
+  margin-left: -50vw;
+  height: 100vh;
+  left: 50%;
 }
