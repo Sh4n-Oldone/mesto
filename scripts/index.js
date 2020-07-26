@@ -13,8 +13,6 @@ const popUpUser = document.querySelector('.popup-profile');
 const popUpCard = document.querySelector('.popup-card');
 
 const popUpImg = document.querySelector('.popup-image');
-const popUpImgImage = document.querySelector('.popup-image__image');// выбираем картинку поп-апа
-const popUpImgTitle = document.querySelector('.popup-image__title');
 
 const editButtonUser = document.querySelector('.profile__edit-button');
 const addButtonCard = document.querySelector('.profile__add-button');
@@ -29,13 +27,14 @@ const cardTemplate = document.querySelector('#card-template').content; // заб
 const formUserElement = popUpUser.querySelector('.popup__form');
 const formCardElement = popUpCard.querySelector('.popup__form');
 
+const saveButtonCard = popUpCard.querySelector('.popup__save-button');
+
 const closeButtonUser = popUpUser.querySelector('.popup__close-button');
 const closeButtonCard = popUpCard.querySelector('.popup__close-button');
 const closeButtonImg = popUpImg.querySelector('.popup__close-button');
+
 const cardFormInputs = formCardElement.querySelectorAll('.popup__input');
 const cardFormErrorElements = formCardElement.querySelectorAll('.popup__input_type_error');
-
-export { popUpImg, popUpImgImage, popUpImgTitle };
 
 // Функции
 
@@ -64,8 +63,8 @@ function formSubmitHandler () {
 }
 
 // внесение в DOM созданной карточки
-function renderCard(name, link) {
-    cardsList.prepend(new Card(name, link, cardTemplate).createCard());
+function renderCard(data) {
+    cardsList.prepend(new Card(data, cardTemplate).createCard());
 }
 
 // добавляет в выбранную форму событие валидации по сабмиту
@@ -86,18 +85,19 @@ formUserElement.addEventListener('submit', (evt) => { // можно раздел
 closeButtonUser.addEventListener('click', () => {togglePopUp(popUpUser)});
 
 addButtonCard.addEventListener('click', () => {
-  popUpCard.querySelector('.popup__save-button').classList.add('popup__save-button_disabled'); // обнуляет класс кнопки
-  popUpCard.querySelector('.popup__save-button').setAttribute('disabled', true); // обнуляет состояние кнопки
+  saveButtonCard.classList.add('popup__save-button_disabled'); // обнуляет класс кнопки
+  saveButtonCard.setAttribute('disabled', true); // обнуляет состояние кнопки
+  resetForm(cardFormErrorElements, cardFormInputs, formCardElement);
   togglePopUp(popUpCard);
 });
 formCardElement.addEventListener('submit', (evt) => { // можно разделить обратно на три слушателя сабмита
+  // const data = {name: popUpCard.querySelector('.popup__input_name').value, link: popUpCard.querySelector('.popup__input_title').value};
   evt.preventDefault();
   togglePopUp(popUpCard);
-  renderCard(popUpCard.querySelector('.popup__input_name').value, popUpCard.querySelector('.popup__input_title').value);
-  formCardElement.reset(); // ресетит инпуты поп-апа
+  renderCard({name: popUpCard.querySelector('.popup__input_name').value, link: popUpCard.querySelector('.popup__input_title').value});
 });
 closeButtonCard.addEventListener('click', () => {
-  resetForm(cardFormErrorElements, cardFormInputs, formCardElement);;
+  resetForm(cardFormErrorElements, cardFormInputs, formCardElement);
   togglePopUp(popUpCard);
 });
 
@@ -105,7 +105,7 @@ closeButtonImg.addEventListener('click', () => {togglePopUp(popUpImg)});
 
 // внесение в DOM карточек, создающихся из массива
 initialCards.forEach(element => {
-    renderCard(element.name, element.link);
+    renderCard(element);
 });
 
 pageContainer.addEventListener('click', (evt) => {

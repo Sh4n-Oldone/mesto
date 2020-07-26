@@ -1,10 +1,14 @@
-import { popUpImg, popUpImgImage, popUpImgTitle } from './index.js';
+// Объявление переменных
+
+const popUpImg = document.querySelector('.popup-image');
+const popUpImgImage = document.querySelector('.popup-image__image');
+const popUpImgTitle = document.querySelector('.popup-image__title');
 
 // Класс создаёт полностью заполненный элемент карточки
 // принимает имя карточки, ссылку на картинку и темплейт из которого будет её создавать
 
 class Card {
-  constructor(name, link, template) {
+  constructor({name, link}, template) {
     this.name = name;
     this.link = link;
     this.template = template;
