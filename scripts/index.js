@@ -4,43 +4,37 @@ import { Card } from './Card.js'; // класс создания карточк�
 import { FormValidator } from './FormValidator.js'; // класс валидации инпутов в форме
 import { initialCards } from './initial-сards.js'; // массив исходных карточек
 import { validationSelectors } from './utils.js'; // параметры для валидации
+import Section from './Section.js';
 
-// Объявление переменных
+import {
+  page,
+  popUpUser,
+  popUpCard,
+  popUpImg,
+  editButtonUser,
+  addButtonCard,
+  profileName,
+  profileTitle,
+  cardsList,
+  cardTemplate,
+  formUserElement,
+  formCardElement,
+  saveButtonCard,
+  nameInput,
+  jobInput,
+  closeButtonUser,
+  closeButtonCard,
+  closeButtonImg,
+  profileFormInputs,
+  profileFormErrorElements,
+  cardFormInputs,
+  cardFormErrorElements
+} from './constants.js';
+import PopupWithImage from './PopupWithImage.js';
 
-const page = document.querySelector('.page');
-const popUpUser = document.querySelector('.popup-profile');
-const popUpCard = document.querySelector('.popup-card');
 
-const popUpImg = document.querySelector('.popup-image');
-
-const editButtonUser = document.querySelector('.profile__edit-button');
-const addButtonCard = document.querySelector('.profile__add-button');
-
-const profileName = document.querySelector('.profile__name');
-const profileTitle = document.querySelector('.profile__title');
-
-const cardsList = document.querySelector('.cards__list'); // список карточек
-
-const cardTemplate = document.querySelector('#card-template').content; // забираем скелет карточки
-
-const formUserElement = popUpUser.querySelector('.popup__form');
-const formCardElement = popUpCard.querySelector('.popup__form');
-
-const saveButtonCard = popUpCard.querySelector('.popup__save-button');
-
-const nameInput = popUpUser.querySelector('.popup__input_name');
-const jobInput = popUpUser.querySelector('.popup__input_title');
-
-const closeButtonUser = popUpUser.querySelector('.popup__close-button');
-const closeButtonCard = popUpCard.querySelector('.popup__close-button');
-const closeButtonImg = popUpImg.querySelector('.popup__close-button');
-
-const profileFormInputs = formUserElement.querySelectorAll('.popup__input');
-const profileFormErrorElements = formUserElement.querySelectorAll('.popup__input_type_error');
-
-const cardFormInputs = formCardElement.querySelectorAll('.popup__input');
-const cardFormErrorElements = formCardElement.querySelectorAll('.popup__input_type_error');
-
+const popedupImage = new PopupWithImage(popUpImg);
+popedupImage.setEventListeners();
 // Функции
 
 // открытие/закрытие поп-апов
@@ -62,16 +56,6 @@ function resetForm(errorElementsArr, inputsArr, form) {
 function formSubmitHandler () {
   profileName.textContent = nameInput.value;
   profileTitle.textContent = jobInput.value;
-}
-
-// внесение в DOM созданной карточки
-function renderCard(data) {
-    cardsList.prepend(new Card(data, cardTemplate).createCard());
-}
-
-// добавляет в выбранную форму событие валидации по сабмиту
-function addValidationToListener(form) {
-  form.addEventListener('submit', new FormValidator(validationSelectors, form).enableValidation());
 }
 
 // Вызовы функций и ивенты
@@ -101,10 +85,14 @@ addButtonCard.addEventListener('click', () => {
   togglePopUp(popUpCard);
 });
 
-formCardElement.addEventListener('submit', (evt) => { // можно разделить обратно на три слушателя сабмита
+formCardElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   togglePopUp(popUpCard);
-  renderCard({name: popUpCard.querySelector('.popup__input_name').value, link: popUpCard.querySelector('.popup__input_title').value});
+  new Section({}, cardsList)
+  .addItem((new Card({
+    name: popUpCard.querySelector('.popup__input_name').value,
+    link: popUpCard.querySelector('.popup__input_title').value
+  }, cardTemplate, {handleCardClick: popedupImage}).createCard()));
 });
 
 closeButtonCard.addEventListener('click', () => {
@@ -113,11 +101,10 @@ closeButtonCard.addEventListener('click', () => {
   togglePopUp(popUpCard);
 });
 
-closeButtonImg.addEventListener('click', () => {togglePopUp(popUpImg)});
-
 // внесение в DOM карточек, создающихся из массива
 initialCards.forEach(element => {
-    renderCard(element);
+    new Section({}, cardsList)
+    .addItem((new Card(element, cardTemplate, {handleCardClick: popedupImage}).createCard()));
 });
 
 page.addEventListener('click', (evt) => {
@@ -137,11 +124,6 @@ page.addEventListener('click', (evt) => {
   };
 });
 
-page.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    togglePopUp(document.querySelector('.popup_opened'));
-  };
-});
-
-addValidationToListener(formUserElement);
-addValidationToListener(formCardElement);
+// Валидация форм
+formUserElement.addEventListener('submit', new FormValidator(validationSelectors, formUserElement).enableValidation());
+formCardElement.addEventListener('submit', new FormValidator(validationSelectors, formCardElement).enableValidation());
