@@ -23,13 +23,3 @@ export const saveButtonCard = popUpCard.querySelector('.popup__save-button');
 
 export const nameInput = popUpUser.querySelector('.popup__input_name');
 export const jobInput = popUpUser.querySelector('.popup__input_title');
-
-export const closeButtonUser = popUpUser.querySelector('.popup__close-button');
-export const closeButtonCard = popUpCard.querySelector('.popup__close-button');
-export const closeButtonImg = popUpImg.querySelector('.popup__close-button');
-
-export const profileFormInputs = formUserElement.querySelectorAll('.popup__input');
-export const profileFormErrorElements = formUserElement.querySelectorAll('.popup__input_type_error');
-
-export const cardFormInputs = formCardElement.querySelectorAll('.popup__input');
-export const cardFormErrorElements = formCardElement.querySelectorAll('.popup__input_type_error');

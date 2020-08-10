@@ -1,7 +1,7 @@
 // Класс создаёт полностью заполненный элемент карточки
 // принимает имя карточки, ссылку на картинку и темплейт из которого будет её создавать
 
-class Card {
+export default class Card {
   constructor({name, link}, template, {handleCardClick}) {
     this.name = name;
     this.link = link;
@@ -46,5 +46,3 @@ class Card {
     return card;
   }
 }
-
-export { Card };
