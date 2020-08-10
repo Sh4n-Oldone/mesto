@@ -1,10 +1,11 @@
 // Импорты
+import './pages/index.css';
 
-import Card from './Card.js'; // класс создания карточки
-import FormValidator from './FormValidator.js'; // класс валидации инпутов в форме
-import { initialCards } from './initial-сards.js'; // массив исходных карточек
-import { validationSelectors } from './utils.js'; // параметры для валидации
-import Section from './Section.js';
+import Card from './scripts/Card.js'; // класс создания карточки
+import FormValidator from './scripts/FormValidator.js'; // класс валидации инпутов в форме
+import { initialCards } from './scripts/initial-сards.js'; // массив исходных карточек
+import { validationSelectors } from './scripts/utils.js'; // параметры для валидации
+import Section from './scripts/Section.js';
 
 import {
   page,
@@ -22,10 +23,10 @@ import {
   saveButtonCard,
   nameInput,
   jobInput
-} from './constants.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
+} from './scripts/constants.js';
+import PopupWithImage from './scripts/PopupWithImage.js';
+import PopupWithForm from './scripts/PopupWithForm.js';
+import UserInfo from './scripts/UserInfo.js';
 
 // Сохранение объекстов из классов
 
