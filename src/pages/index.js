@@ -29,13 +29,15 @@ import UserInfo from '../components/UserInfo.js';
 
 // Сохранение объекстов из классов
 
+function createNewCard(data) {return new Card(data, cardTemplate, popupWithImage).createCard()};
+
 const popupWithImage = new PopupWithImage(popUpImg);
 popupWithImage.setEventListeners();
 
 const section = new Section({
   items: initialCards,
-  renderer: function renderIt(item) {
-    this.addItem(new Card(item, cardTemplate, popupWithImage).createCard())}
+  renderer: (item) => {
+    section.addItem(createNewCard(item))}
 }, cardsList);
 section.render();
 
@@ -50,7 +52,7 @@ popupForProfile.setEventListeners();
 const popupForCards = new PopupWithForm(
   popUpCard, 
   (data) => {
-    section.addItem(new Card(data, cardTemplate, popupWithImage).createCard())
+    section.addItem(createNewCard(data))
   }
 );
 popupForCards.setEventListeners();

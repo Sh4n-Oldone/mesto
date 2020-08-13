@@ -5,14 +5,24 @@ export default class Popup {
 
   open() {
     this._popupSelector.classList.add('popup_opened');
+    this._handleEscClose();
   }
 
   close() {
     this._popupSelector.classList.remove('popup_opened');
+    this._removeEscListener();
   }
 
   _handleEscClose() {
-    document.querySelector('.page').addEventListener('keydown', (evt) => {
+    document.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Escape') {
+        this.close();
+      };
+    })
+  }
+
+  _removeEscListener() {
+    document.removeEventListener('keydown', (evt) => {
       if (evt.key === 'Escape') {
         this.close();
       };
@@ -20,15 +30,11 @@ export default class Popup {
   }
 
   setEventListeners() {
-    this._popupSelector.querySelector('.popup__close-button').addEventListener('click', () => {this.close()});
-
-    document.querySelector('.page').addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
+    this._popupSelector.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup__close-button') || evt.target.classList.contains('popup_opened')) {
         this.close();
-      }
+      };
     });
-
-    this._handleEscClose();
   }
 
 }

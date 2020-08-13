@@ -13,18 +13,12 @@ export default class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    this._handleEscClose();
-    this._popupSelector.querySelector('.popup__close-button').addEventListener('click', () => {this.close()});
-
+    super.setEventListeners();
+    
     this._popupSelector.querySelector('.popup__form').addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._submitDoSomething(this._getInputValues());
       this.close();
-    });
-    document.querySelector('.page').addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
-        this.close();
-      }
     });
   }
 
@@ -38,6 +32,6 @@ export default class PopupWithForm extends Popup {
 
     this._popupSelector.querySelector('.popup__form').reset();
 
-    this._popupSelector.classList.remove('popup_opened');
+    super.close();
   }
 }
