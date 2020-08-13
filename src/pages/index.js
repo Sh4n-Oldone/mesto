@@ -38,7 +38,6 @@ const section = new Section({
     this.addItem(new Card(item, cardTemplate, popupWithImage).createCard())}
 }, cardsList);
 section.render();
-console.log('Это section: ' + section);
 
 const user = new UserInfo({nameSelector: nameInput, jobSelector: jobInput});
 
@@ -54,10 +53,8 @@ const popupForCards = new PopupWithForm(
     section.addItem(new Card(data, cardTemplate, popupWithImage).createCard())
   }
 );
-
 popupForCards.setEventListeners();
 
-console.log('Это popupForCards: ' + popupForCards);
 // Ивенты
 
 editButtonUser.addEventListener('click', () => {
