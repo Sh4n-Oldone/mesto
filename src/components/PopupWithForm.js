@@ -21,6 +21,11 @@ export default class PopupWithForm extends Popup {
       this._submitDoSomething();
       this.close();
     });
+    document.querySelector('.page').addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+        this.close();
+      }
+    });
   }
 
   close() {

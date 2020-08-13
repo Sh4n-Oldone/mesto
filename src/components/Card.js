@@ -2,7 +2,7 @@
 // принимает имя карточки, ссылку на картинку и темплейт из которого будет её создавать
 
 export default class Card {
-  constructor({name, link}, template, {handleCardClick}) {
+  constructor({name, link}, template, handleCardClick) {
     this.name = name;
     this.link = link;
     this.template = template;
@@ -16,16 +16,6 @@ export default class Card {
   _removeCard(evt) {
     evt.target.parentNode.remove(); // удаляем из дом родителя этого элемента
   }
-
-  // _imgOpenPopUp(evt) {
-
-  //   const imgTarget = evt.target;  // записываем в переменную кликнутый объект
-  //   const cardTextTarget = imgTarget.nextElementSibling.querySelector('.card__title').textContent; // текст карточки через соседа, в котором ищем объект
-
-  //   // popUpImgImage.src = imgTarget.src; // передаём  картинку в поп-ап
-  //   // popUpImgImage.alt = cardTextTarget; // передаём текст в альт
-  //   // popUpImgTitle.textContent = cardTextTarget; // передаём этот же текст в параграф
-  // }
 
   _setEventListeners(item) {
     item.querySelector('.card__like-button').addEventListener('click', this._likeButtonToggle);

@@ -23,3 +23,11 @@ export const saveButtonCard = popUpCard.querySelector('.popup__save-button');
 
 export const nameInput = popUpUser.querySelector('.popup__input_name');
 export const jobInput = popUpUser.querySelector('.popup__input_title');
+
+export const validationSelectors = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_error'
+}
