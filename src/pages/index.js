@@ -36,7 +36,9 @@ const section = new Section({
   items: initialCards,
   renderer: function renderIt(item) {
     this.addItem(new Card(item, cardTemplate, popupWithImage).createCard())}
-}, cardsList).render();
+}, cardsList);
+section.render();
+console.log('Это section: ' + section);
 
 const user = new UserInfo({nameSelector: nameInput, jobSelector: jobInput});
 
@@ -49,15 +51,13 @@ popupForProfile.setEventListeners();
 const popupForCards = new PopupWithForm(
   popUpCard, 
   (data) => {
-    new Section({
-    items: [data],
-    renderer: function renderIt(item) {
-      this.addItem(new Card(item, cardTemplate, popupWithImage).createCard())}
-  }, cardsList).render()}
+    section.addItem(new Card(data, cardTemplate, popupWithImage).createCard())
+  }
 );
 
 popupForCards.setEventListeners();
 
+console.log('Это popupForCards: ' + popupForCards);
 // Ивенты
 
 editButtonUser.addEventListener('click', () => {
