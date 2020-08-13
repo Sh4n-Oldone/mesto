@@ -32,7 +32,7 @@ import UserInfo from '../components/UserInfo.js';
 const popupWithImage = new PopupWithImage(popUpImg);
 popupWithImage.setEventListeners();
 
-new Section({
+const section = new Section({
   items: initialCards,
   renderer: function renderIt(item) {
     this.addItem(new Card(item, cardTemplate, popupWithImage).createCard())}
@@ -48,12 +48,9 @@ popupForProfile.setEventListeners();
 
 const popupForCards = new PopupWithForm(
   popUpCard, 
-  () => {
+  (data) => {
     new Section({
-    items: [{
-      name: popUpCard.querySelector('.popup__input_name').value,
-      link: popUpCard.querySelector('.popup__input_title').value
-    }],
+    items: [data],
     renderer: function renderIt(item) {
       this.addItem(new Card(item, cardTemplate, popupWithImage).createCard())}
   }, cardsList).render()}
