@@ -9,7 +9,16 @@ export default class UserInfo {
   }
 
   setUserInfo(data) {
-    document.querySelector('.profile__name').textContent = data.name;
-    document.querySelector('.profile__title').textContent = data.job;
+    fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
+      method: 'PATCH',
+      headers: {
+        authorization: '14950384-2a2e-482b-8250-dfb0e0c885f3',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: data.name,
+        about: data.job
+      })
+    });
   }
 }

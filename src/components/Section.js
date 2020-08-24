@@ -12,6 +12,10 @@ export default class Section {
   }
 
   addItem(domElement) {
+    this._containerSelector.append(domElement);
+  }
+
+  addItemReverse(domElement) {
     this._containerSelector.prepend(domElement);
   }
 }

@@ -3,9 +3,9 @@
   height: 18px;
   background-image: url(../../../images/like-button.svg);
   background-repeat: no-repeat;
-  background-position: right;
-  margin-top: auto;
-  margin-bottom: auto;
+  background-position: center;
+  background-size: contain;
+  margin-bottom: 3px;
 }
 
 .card__like-button:hover {

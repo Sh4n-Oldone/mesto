@@ -3,14 +3,15 @@
 export const page = document.querySelector('.page');
 export const popUpUser = document.querySelector('.popup-profile');
 export const popUpCard = document.querySelector('.popup-card');
-
 export const popUpImg = document.querySelector('.popup-image');
+export const popUpSubmit = document.querySelector('.popup-submit');
 
 export const editButtonUser = document.querySelector('.profile__edit-button');
 export const addButtonCard = document.querySelector('.profile__add-button');
 
 export const profileName = document.querySelector('.profile__name');
 export const profileTitle = document.querySelector('.profile__title');
+export const profileAvatar = document.querySelector('.profile__pic');
 
 export const cardsList = document.querySelector('.cards__list'); // список карточек
 

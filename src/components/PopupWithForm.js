@@ -12,12 +12,7 @@ export default class PopupWithForm extends Popup {
     inputs.forEach(input => {
       this.obj[input.name] = input.value;
     });
-    console.log(this.obj);
     return this.obj;
-
-    // return {
-    //   name: this._popupSelector.querySelector('.popup__input_name').value, 
-    //   link: this._popupSelector.querySelector('.popup__input_title').value}
   }
 
   setEventListeners() {
