@@ -12,33 +12,44 @@ export default class Api {
   }
 
   setData(data) {
-    fetch(this._baseUrl, {
+    return fetch(this._baseUrl, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link
       })
-    })
+    }).then(res => res.json())
   }
 
-  removeCard(card) {
-    fetch(this._baseUrl, {
+  removeCard(_id) {
+    return fetch(this._baseUrl + '/' + _id, {
       method: 'DELETE',
-      headers: this._headers,
-      body: JSON.stringify({
-        _id: card
-      })
+      headers: this._headers
     })
   }
 
-  setNewAvatar() {
-    fetch(this._baseUrl, {
+  putLike(_id) {
+    return fetch(this._baseUrl + '/likes/' + _id, {
+      method: 'PUT',
+      headers: this._headers
+    })
+  }
+
+  removeLike(id) {
+    return fetch(this._baseUrl + '/likes/' + _id, {
+      method: 'DELETE',
+      headers: this._headers
+    })
+  }
+
+  setNewAvatar(data) {
+    return fetch(this._baseUrl + '/avatar', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar
       })
-    })
+    }).then(res => res.json())
   }
 }

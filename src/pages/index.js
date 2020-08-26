@@ -10,6 +10,7 @@ import {
   popUpCard,
   popUpImg,
   popUpSubmit,
+  popUpAvatar,
   editButtonUser,
   addButtonCard,
   profileName,
@@ -19,9 +20,11 @@ import {
   cardTemplate,
   formUserElement,
   formCardElement,
+  formAvatarElement,
   saveButtonCard,
   nameInput,
   jobInput,
+  profileSaveButton,
   validationSelectors
 } from '../utils/constants.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -30,8 +33,7 @@ import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-// Сохранение объекстов из классов
-
+// Апи профиля
 const apiUserData = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/users/me',
   headers: {
@@ -39,11 +41,11 @@ const apiUserData = new Api({
       'Content-Type': 'application/json'
     }
 });
-
 apiUserData.getData().then((res) => {profileName.textContent = res.name});
 apiUserData.getData().then((res) => {profileTitle.textContent = res.about});
 apiUserData.getData().then((res) => {profileAvatar.src = res.avatar});
 
+//Апи карточек
 const apiCardsData = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/cards',
   headers: {
@@ -52,7 +54,7 @@ const apiCardsData = new Api({
     }
 });
 
-function createNewCard(data) {return new Card(data, cardTemplate, popupWithImage, popupWithSubmit).createCard()};
+function createNewCard(data) {return new Card(data, cardTemplate, popupWithImage, popupWithDelSubmit, likeClick).createCard()}; //возвращает готовую карточку, принимает объект с данными
 
 const popupWithImage = new PopupWithImage(popUpImg);
 popupWithImage.setEventListeners();
@@ -73,9 +75,13 @@ const user = new UserInfo({nameSelector: nameInput, jobSelector: jobInput});
 const popupForProfile = new PopupWithForm(
   popUpUser,
   () => {
+    // profileSaveButton.textContent = 'Сохранение...'
     user.setUserInfo(user.getUserInfo());
-    apiUserData.getData().then((res) => {profileName.textContent = res.name});
-    apiUserData.getData().then((res) => {profileTitle.textContent = res.about});
+    apiUserData.getData()
+    .then((res) => {
+      profileName.textContent = res.name;
+      profileTitle.textContent = res.about})
+    // .finally(profileSaveButton.textContent = 'Сохранить');
   }
 );
 popupForProfile.setEventListeners();
@@ -84,20 +90,42 @@ popupForProfile.setEventListeners();
 const popupForCards = new PopupWithForm(
   popUpCard, 
   (data) => {
-    section.addItemReverse(createNewCard(data));
-    apiCardsData.setData(data);
+    apiCardsData.setData(data)
+    .then((res) => {section.addItemReverse(createNewCard(res))})
   }
 );
 popupForCards.setEventListeners();
 
-const popupWithSubmit = new PopupWithSubmit(
+const popupWithDelSubmit = new PopupWithSubmit(
   popUpSubmit,
-  (evt) => {
-    console.log(evt.target)
+  (data) => {
+    apiCardsData.removeCard(data)
 });
-popupWithSubmit.setEventListeners();
+popupWithDelSubmit.setEventListeners();
 
+const likeClick = (id) => {
+  // if() {
+  //   apiCardsData.putLike(id)
+  // } else {
+  //   apiCardsData.removeLike(id)
+  // }
+}
 // Ивенты
+
+const avatarReplacement = new PopupWithForm(
+  popUpAvatar,
+  (data) => {
+    apiUserData.setNewAvatar(data)
+    .then((data) => {
+      profileAvatar.src = data.avatar
+    });
+  }
+)
+avatarReplacement.setEventListeners();
+
+profileAvatar.addEventListener('click', () => {
+  avatarReplacement.open();
+})
 
 editButtonUser.addEventListener('click', () => {
   nameInput.value = profileName.textContent; // вносит в инпуты исходные значения
@@ -112,6 +140,6 @@ addButtonCard.addEventListener('click', () => {
 });
 
 // Валидация форм
-
+formAvatarElement.addEventListener('submit', new FormValidator(validationSelectors, formAvatarElement).enableValidation());
 formUserElement.addEventListener('submit', new FormValidator(validationSelectors, formUserElement).enableValidation());
 formCardElement.addEventListener('submit', new FormValidator(validationSelectors, formCardElement).enableValidation());

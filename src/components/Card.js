@@ -2,13 +2,15 @@
 // принимает имя карточки, ссылку на картинку и темплейт из которого будет её создавать
 
 export default class Card {
-  constructor({name, link, likes, owner}, template, handleCardClick, handleRemoveClick) {
+  constructor({name, link, likes, owner, _id}, template, handleCardClick, handleRemoveClick, handleLikeClick) {
     this.name = name;
     this.link = link;
     this.likes = likes;
     this.owner = owner;
+    this._id = _id;
     this.template = template;
-    this._imgMethod = handleCardClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleCardClick = handleCardClick;
     this._handleRemoveClick = handleRemoveClick;
   }
 
@@ -16,19 +18,28 @@ export default class Card {
     evt.target.classList.toggle('card__like-button_pressed');
   }
 
-  _removeCard() {
-    // evt.target.parentNode.remove(); // удаляем из дом родителя этого элемента
-
-    this._handleRemoveClick();
+  _removeCard(evt) {
+    evt.target.parentNode.remove(); // удаляем из дом родителя этого элемента
   }
 
   _setEventListeners(item) {
-    item.querySelector('.card__like-button').addEventListener('click', this._likeButtonToggle);
-    item.querySelector('.card__remove-button').addEventListener('click', () => {
-      this._handleRemoveClick.open();
+    item.querySelector('.card__like-button').addEventListener('click', () => {
+
+      this._handleLikeClick(item);
+      console.log(item);
+      item.querySelector('.card__like-button').classList.toggle('card__like-button_pressed');
+
     });
+
+    item.querySelector('.card__remove-button').addEventListener('click', (evt) => {
+      
+      this._handleRemoveClick.open(this._id);
+      // this._removeCard(evt);
+      
+    });
+
     item.querySelector('.card__image').addEventListener('click', () => {
-      this._imgMethod.open(this.name, this.link);
+      this._handleCardClick.open(this.name, this.link);
     });
   }
 
@@ -54,5 +65,3 @@ export default class Card {
   }
 
 }
-
-
