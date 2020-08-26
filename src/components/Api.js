@@ -13,7 +13,7 @@ export default class Api {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    })
   }
 
   setData(data) {
@@ -29,7 +29,7 @@ export default class Api {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    })
   }
 
   removeCard(_id) {
@@ -43,10 +43,15 @@ export default class Api {
     return fetch(this._baseUrl + '/likes/' + _id, {
       method: 'PUT',
       headers: this._headers
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
 
-  removeLike(id) {
+  removeLike(_id) {
     return fetch(this._baseUrl + '/likes/' + _id, {
       method: 'DELETE',
       headers: this._headers
@@ -65,6 +70,6 @@ export default class Api {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    })
   }
 }

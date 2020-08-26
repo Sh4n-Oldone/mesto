@@ -9,9 +9,9 @@ export default class Card {
     this.owner = owner;
     this._id = _id;
     this.template = template;
-    this._handleLikeClick = handleLikeClick;
     this._handleCardClick = handleCardClick;
     this._handleRemoveClick = handleRemoveClick;
+    this._handleLikeClick = handleLikeClick;
   }
 
   _likeButtonToggle(evt) {
@@ -23,21 +23,24 @@ export default class Card {
   }
 
   _setEventListeners(item) {
-    item.querySelector('.card__like-button').addEventListener('click', () => {
-
-      this._handleLikeClick(item);
-      console.log(item);
-      item.querySelector('.card__like-button').classList.toggle('card__like-button_pressed');
+    // слушатель клика на лайк
+    item.querySelector('.card__like-button').addEventListener('click', (evt) => {
+      
+      this._handleLikeClick(this.likes, this._id, evt.target);
+      this._likeButtonToggle(evt);
+            
 
     });
 
-    item.querySelector('.card__remove-button').addEventListener('click', (evt) => {
+    // слушатель клика на кнопку удаления карточки
+    item.querySelector('.card__remove-button').addEventListener('click', () => {
       
       this._handleRemoveClick.open(this._id);
       // this._removeCard(evt);
       
     });
 
+    // слушатель клика на изображение карточки
     item.querySelector('.card__image').addEventListener('click', () => {
       this._handleCardClick.open(this.name, this.link);
     });
@@ -46,11 +49,11 @@ export default class Card {
   createCard() {
     const card = this.template.cloneNode(true);
     const cardImage = card.querySelector('.card__image');
+    
+    card.querySelector('.card__like-counter').textContent = this.likes.length;
 
-    if(Array.isArray(this.likes)) {
-      card.querySelector('.card__like-counter').textContent = this.likes.length;
-    } else {
-      card.querySelector('.card__like-counter').textContent = 0;
+    if(this.likes.find(item => item._id === 'ed99dd7809a559eac419471a')) {
+      card.querySelector('.card__like-button').classList.add('card__like-button_pressed')
     }
 
     if(this.owner._id !== 'ed99dd7809a559eac419471a') {
