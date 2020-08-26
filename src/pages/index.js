@@ -22,6 +22,8 @@ import {
   formCardElement,
   formAvatarElement,
   saveButtonCard,
+  profileSaveButton,
+  avatarSaveButton,
   nameInput,
   jobInput,
   validationSelectors
@@ -77,14 +79,18 @@ const user = new UserInfo({nameSelector: nameInput, jobSelector: jobInput});
 const popupForProfile = new PopupWithForm(
   popUpUser,
   () => {
-    // profileSaveButton.textContent = 'Сохранение...'
+    profileSaveButton.textContent = 'Сохранение...'
     user.setUserInfo(user.getUserInfo());
     apiUserData.getData()
     .then((res) => {
       profileName.textContent = res.name;
       profileTitle.textContent = res.about})
     .catch((error) => {console.log('Я менял данные пользователя. Я сломался. Ошибка: ' + error)})
-    // .finally(profileSaveButton.textContent = 'Сохранить');
+    .finally(() => {
+      profileSaveButton.textContent = 'Сохранить';
+      popupForProfile.close();
+    });
+    
   }
 );
 popupForProfile.setEventListeners();
@@ -93,9 +99,14 @@ popupForProfile.setEventListeners();
 const popupForCards = new PopupWithForm(
   popUpCard, 
   (data) => {
+    saveButtonCard.textContent = 'Сохранение...';
     apiCardsData.setData(data)
     .then((res) => {section.addItemReverse(createNewCard(res))})
     .catch((error) => {console.log('Я отправлял карточку на сервер. Я сломался. Ошибка: ' + error)})
+    .finally(() => {
+      saveButtonCard.textContent = 'Создать';
+      popupForCards.close();
+    })
   }
 );
 popupForCards.setEventListeners();
@@ -103,7 +114,7 @@ popupForCards.setEventListeners();
 const popupWithDelSubmit = new PopupWithSubmit(
   popUpSubmit,
   (data) => {
-    apiCardsData.removeCard(data)
+    apiCardsData.removeCard(data).catch((error) => {console.log('что-то пошло не так при удалении карточки: ' + error)})
 });
 popupWithDelSubmit.setEventListeners();
 
@@ -119,11 +130,16 @@ const likeClick = (id) => {
 const avatarReplacement = new PopupWithForm(
   popUpAvatar,
   (data) => {
+    avatarSaveButton.textContent = 'Сохранение...';
     apiUserData.setNewAvatar(data)
     .then((data) => {
       profileAvatar.src = data.avatar
     })
-    .catch((error) => {console.log('Я менял аватар. Я сломался. Ошибка: ' + error)});
+    .catch((error) => {console.log('Я менял аватар. Я сломался. Ошибка: ' + error)})
+    .finally(() => {
+      avatarSaveButton.textContent = 'Изменить';
+      avatarReplacement.close();
+    })
   }
 )
 avatarReplacement.setEventListeners();
