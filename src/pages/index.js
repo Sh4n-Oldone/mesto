@@ -24,7 +24,6 @@ import {
   saveButtonCard,
   nameInput,
   jobInput,
-  profileSaveButton,
   validationSelectors
 } from '../utils/constants.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -41,9 +40,11 @@ const apiUserData = new Api({
       'Content-Type': 'application/json'
     }
 });
-apiUserData.getData().then((res) => {profileName.textContent = res.name});
-apiUserData.getData().then((res) => {profileTitle.textContent = res.about});
-apiUserData.getData().then((res) => {profileAvatar.src = res.avatar});
+apiUserData.getData().then((res) => {
+  profileName.textContent = res.name;
+  profileTitle.textContent = res.about;
+  profileAvatar.src = res.avatar;
+}).catch((error) => {console.log('Я получал данные. Я сломался. Ошибка: ' + error)});
 
 //Апи карточек
 const apiCardsData = new Api({
@@ -68,7 +69,8 @@ apiCardsData.getData()
         section.addItem(createNewCard(item))}
     }, cardsList);
     section.render();
-  });
+  })
+  .catch((error) => {console.log('Я создавал карточки. Я сломался. Ошибка: ' + error)});
 
 const user = new UserInfo({nameSelector: nameInput, jobSelector: jobInput});
 
@@ -81,6 +83,7 @@ const popupForProfile = new PopupWithForm(
     .then((res) => {
       profileName.textContent = res.name;
       profileTitle.textContent = res.about})
+    .catch((error) => {console.log('Я менял данные пользователя. Я сломался. Ошибка: ' + error)})
     // .finally(profileSaveButton.textContent = 'Сохранить');
   }
 );
@@ -92,6 +95,7 @@ const popupForCards = new PopupWithForm(
   (data) => {
     apiCardsData.setData(data)
     .then((res) => {section.addItemReverse(createNewCard(res))})
+    .catch((error) => {console.log('Я отправлял карточку на сервер. Я сломался. Ошибка: ' + error)})
   }
 );
 popupForCards.setEventListeners();
@@ -118,7 +122,8 @@ const avatarReplacement = new PopupWithForm(
     apiUserData.setNewAvatar(data)
     .then((data) => {
       profileAvatar.src = data.avatar
-    });
+    })
+    .catch((error) => {console.log('Я менял аватар. Я сломался. Ошибка: ' + error)});
   }
 )
 avatarReplacement.setEventListeners();

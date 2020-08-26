@@ -8,7 +8,12 @@ export default class Api {
     return fetch(this._baseUrl, {
       headers: this._headers
     })
-      .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   setData(data) {
@@ -19,7 +24,12 @@ export default class Api {
         name: data.name,
         link: data.link
       })
-    }).then(res => res.json())
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   removeCard(_id) {
@@ -50,6 +60,11 @@ export default class Api {
       body: JSON.stringify({
         avatar: data.avatar
       })
-    }).then(res => res.json())
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 }
