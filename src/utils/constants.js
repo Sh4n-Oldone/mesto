@@ -26,6 +26,7 @@ export const formAvatarElement = popUpAvatar.querySelector('.popup__form');
 export const saveButtonCard = popUpCard.querySelector('.popup__save-button');
 export const avatarSaveButton = popUpAvatar.querySelector('.popup__save-button');
 export const profileSaveButton = popUpUser.querySelector('.popup__save-button');
+export const removeSubmitButton = popUpSubmit.querySelector('.popup__save-button');
 
 export const nameInput = popUpUser.querySelector('.popup__input_name');
 export const jobInput = popUpUser.querySelector('.popup__input_title');

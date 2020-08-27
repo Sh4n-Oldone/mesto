@@ -1,11 +1,12 @@
 export default class Api {
   constructor(options) {
-    this._baseUrl = options.baseUrl;
+    this._userUrl = options.userUrl;
+    this._cardsUrl = options.cardsUrl;
     this._headers = options.headers;
   }
 
-  getData() {
-    return fetch(this._baseUrl, {
+  getUserData() {
+    return fetch(this._userUrl, {
       headers: this._headers
     })
     .then(res => {
@@ -16,8 +17,36 @@ export default class Api {
     })
   }
 
-  setData(data) {
-    return fetch(this._baseUrl, {
+  getCardsData() {
+    return fetch(this._cardsUrl, {
+      headers: this._headers
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
+  setUserData(data) {
+    return fetch(this._userUrl, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
+  setCardsData(data) {
+    return fetch(this._cardsUrl, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -33,14 +62,14 @@ export default class Api {
   }
 
   removeCard(_id) {
-    return fetch(this._baseUrl + '/' + _id, {
+    return fetch(this._cardsUrl + '/' + _id, {
       method: 'DELETE',
       headers: this._headers
     })
   }
 
   putLike(_id) {
-    return fetch(this._baseUrl + '/likes/' + _id, {
+    return fetch(this._cardsUrl + '/likes/' + _id, {
       method: 'PUT',
       headers: this._headers
     }).then(res => {
@@ -52,14 +81,14 @@ export default class Api {
   }
 
   removeLike(_id) {
-    return fetch(this._baseUrl + '/likes/' + _id, {
+    return fetch(this._cardsUrl + '/likes/' + _id, {
       method: 'DELETE',
       headers: this._headers
     })
   }
 
   setNewAvatar(data) {
-    return fetch(this._baseUrl + '/avatar', {
+    return fetch(this._userUrl + '/avatar', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({

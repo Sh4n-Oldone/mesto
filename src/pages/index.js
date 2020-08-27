@@ -24,6 +24,7 @@ import {
   saveButtonCard,
   profileSaveButton,
   avatarSaveButton,
+  removeSubmitButton,
   nameInput,
   jobInput,
   validationSelectors
@@ -34,29 +35,25 @@ import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-// Апи профиля
-const apiUserData = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/users/me',
+// Копия Api с нашими ссылками и авторизацией
+const api = new Api({
+  userUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/users/me',
+  cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/cards',
   headers: {
       authorization: '14950384-2a2e-482b-8250-dfb0e0c885f3', 
       'Content-Type': 'application/json'
     }
 });
+
+
 //Применение данных с сервера при загрузки страницы
-apiUserData.getData().then((res) => {
+api.getUserData().then((res) => {
   profileName.textContent = res.name;
   profileTitle.textContent = res.about;
   profileAvatar.src = res.avatar;
 }).catch((error) => {console.log('Я получал данные. Я сломался. Ошибка: ' + error)});
 
-//Апи карточек
-const apiCardsData = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/cards',
-  headers: {
-      authorization: '14950384-2a2e-482b-8250-dfb0e0c885f3', 
-      'Content-Type': 'application/json'
-    }
-});
+
 
 function createNewCard(data) {return new Card(data, cardTemplate, popupWithImage, popupWithDelSubmit, likeClick).createCard()}; //возвращает готовую карточку, принимает объект с данными
 
@@ -65,7 +62,7 @@ popupWithImage.setEventListeners();
 
 // загрузка с сервера и отображение карточек
 let section = ''; // получение карточек с сервера и их отображение 
-apiCardsData.getData()
+api.getCardsData()
   .then((res) => {
     section = new Section({
       items: res,
@@ -84,7 +81,7 @@ const popupForProfile = new PopupWithForm(
   () => {
     profileSaveButton.textContent = 'Сохранение...'
     user.setUserInfo(user.getUserInfo());
-    apiUserData.getData()
+    api.getUserData()
     .then((res) => {
       profileName.textContent = res.name;
       profileTitle.textContent = res.about;
@@ -103,7 +100,7 @@ const popupForCards = new PopupWithForm(
   popUpCard, 
   (data) => {
     saveButtonCard.textContent = 'Сохранение...';
-    apiCardsData.setData(data)
+    api.setCardsData(data)
     .then((res) => {
       section.addItemReverse(createNewCard(res));
       popupForCards.close();
@@ -119,26 +116,38 @@ popupForCards.setEventListeners();
 // коллбэк подтверждения удаления карточки
 const popupWithDelSubmit = new PopupWithSubmit(
   popUpSubmit,
-  (data) => {
-    apiCardsData.removeCard(data)
+  (data, item) => {
+    removeSubmitButton.textContent = 'Удаление...';
+    api.removeCard(data)
+    .then(() => {
+      item.parentNode.remove();
+      popupWithDelSubmit.close();
+    })
     .catch((error) => {
-      console.log('что-то пошло не так при удалении карточки: ' + error)
+      console.log('Что-то пошло не так при удалении карточки: ' + error)
+    })
+    .finally(() => {
+      removeSubmitButton.textContent = 'Да';
     })
 });
 popupWithDelSubmit.setEventListeners();
 
 // коллбэк условия для лайка
-const likeClick = (arrLikes, id, item) => {
-  if(arrLikes.find(item => item._id === 'ed99dd7809a559eac419471a')) {
-    apiCardsData.removeLike(id);
-  } else {
-    apiCardsData.putLike(id);
-  }
-
+const likeClick = (id, item) => {
   if(item.classList.contains('card__like-button_pressed')) {
-    item.nextElementSibling.textContent = parseInt(item.nextElementSibling.textContent) - 1;
+    api.removeLike(id)
+    .then(() => {
+      item.classList.remove('card__like-button_pressed');
+      item.nextElementSibling.textContent = parseInt(item.nextElementSibling.textContent) - 1;
+    })
+    .catch((error) => {console.log('Я убирал лайк. Я сломался. Ошибка: ' + error)});
   } else {
-    item.nextElementSibling.textContent = parseInt(item.nextElementSibling.textContent) + 1;
+    api.putLike(id)
+    .then(() => {
+      item.classList.add('card__like-button_pressed');
+      item.nextElementSibling.textContent = parseInt(item.nextElementSibling.textContent) + 1;
+    })
+    .catch((error) => {console.log('Я ставил лайк. Я сломался. Ошибка: ' + error)});
   }
 }
 
@@ -147,7 +156,7 @@ const avatarReplacement = new PopupWithForm(
   popUpAvatar,
   (data) => {
     avatarSaveButton.textContent = 'Сохранение...';
-    apiUserData.setNewAvatar(data)
+    api.setNewAvatar(data)
     .then((data) => {
       profileAvatar.src = data.avatar
       avatarReplacement.close();

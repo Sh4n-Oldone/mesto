@@ -6,8 +6,9 @@ export default class PopupWithSubmit extends Popup{
     this._submitDoSomething = submitDoSomething;
   }
 
-  open(callback) {
+  open(callback, target) {
     this.callback = callback;
+    this.target = target;
     this._popupSelector.classList.add('popup_opened');
     this._handleEscClose();
   }
@@ -17,8 +18,7 @@ export default class PopupWithSubmit extends Popup{
     
     this._popupSelector.querySelector('.popup__form').addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._submitDoSomething(this.callback);
-      this.close();
+      this._submitDoSomething(this.callback, this.target);
     });
   }
 }

@@ -14,30 +14,23 @@ export default class Card {
     this._handleLikeClick = handleLikeClick;
   }
 
-  _likeButtonToggle(evt) {
-    evt.target.classList.toggle('card__like-button_pressed');
-  }
+  // _likeButtonToggle(evt) {
+  //   evt.target.classList.toggle('card__like-button_pressed');
+  // }
 
-  _removeCard(evt) {
-    evt.target.parentNode.remove(); // удаляем из дом родителя этого элемента
-  }
+  // _removeCard(evt) {
+  //   evt.target.parentNode.remove(); // удаляем из дом родителя этого элемента
+  // }
 
   _setEventListeners(item) {
     // слушатель клика на лайк
     item.querySelector('.card__like-button').addEventListener('click', (evt) => {
-      
-      this._handleLikeClick(this.likes, this._id, evt.target);
-      this._likeButtonToggle(evt);
-            
-
+      this._handleLikeClick(this._id, evt.target);
     });
 
     // слушатель клика на кнопку удаления карточки
-    item.querySelector('.card__remove-button').addEventListener('click', () => {
-      
-      this._handleRemoveClick.open(this._id);
-      // this._removeCard(evt);
-      
+    item.querySelector('.card__remove-button').addEventListener('click', (evt) => {
+      this._handleRemoveClick.open(this._id, evt.target);
     });
 
     // слушатель клика на изображение карточки
